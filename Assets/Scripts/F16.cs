@@ -6,9 +6,14 @@ public class F16 : MonoBehaviour {
 
     public GameObject bombPrefab;
 
-    float flyTime = 1.5f;
+    float flySpeed = 15f;
 
-    Vector3 offset = new Vector3(25, 25, 0);
+    float minY = -9;
+    float maxY = 9;
+
+    float minX = -9;
+    float maxX = 9;
+
     Vector3 startCoordinates;
     Vector3 targetCoordinates;
     Vector3 endCoordinates;
@@ -21,15 +26,26 @@ public class F16 : MonoBehaviour {
     internal void SetTargetCoordinates(int x, int y)
     {
         targetCoordinates = new Vector3(x, y, 1);
-        startCoordinates = targetCoordinates - offset;
-        endCoordinates = targetCoordinates + offset;
+
+        var distanceToBottom = y - minY;
+        var distanceToLeft = x - minX;
+        var distance1 = Mathf.Min(distanceToBottom, distanceToLeft);
+        var bottomOffset = new Vector3(distance1, distance1, 0);
+
+        var distanceToTop = maxY - y;
+        var distanceToRight = maxX - x;
+        var distance2 = Mathf.Min(distanceToTop, distanceToRight);
+        var topOffset = new Vector3(distance2, distance2, 0);
+
+        startCoordinates = targetCoordinates - bottomOffset;
+        endCoordinates = targetCoordinates + topOffset;
 
         transform.position = startCoordinates;
 
         SetRotation();
 
         Hashtable ht = new Hashtable();
-        ht.Add("time", flyTime);
+        ht.Add("time", bottomOffset.magnitude / flySpeed); // t = s/v
         ht.Add("easetype", "linear");
         ht.Add("x", targetCoordinates.x);
         ht.Add("y", targetCoordinates.y);
@@ -40,8 +56,8 @@ public class F16 : MonoBehaviour {
 
     void SetRotation()
     {
-        if (transform.position.x > 0 && transform.localScale.x > 0)
-            transform.localScale = new Vector3(transform.localScale.x * (-1), transform.localScale.y, transform.localScale.z);
+        //if (transform.position.x > 0 && transform.localScale.x > 0)
+        //    transform.localScale = new Vector3(transform.localScale.x * (-1), transform.localScale.y, transform.localScale.z);
 
         Vector3 lookPos = transform.position - targetCoordinates;
 
@@ -62,11 +78,16 @@ public class F16 : MonoBehaviour {
         Instantiate(bombPrefab, targetCoordinates, Quaternion.identity);
 
         Hashtable ht = new Hashtable();
-        ht.Add("time", flyTime);
+        ht.Add("time", (targetCoordinates-endCoordinates).magnitude/flySpeed); // t = s/v
         ht.Add("easetype", "linear");
         ht.Add("x", endCoordinates.x);
         ht.Add("y", endCoordinates.y);
         ht.Add("onComplete", "Destroy");
         iTween.MoveTo(gameObject, ht);
+    }
+
+    void Destroy()
+    {
+        UnityEngine.Object.Destroy(gameObject);
     }
 }
