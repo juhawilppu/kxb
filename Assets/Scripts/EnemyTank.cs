@@ -9,7 +9,7 @@ public class EnemyTank : MonoBehaviour
     float boatSpeed = 5;
 
     public float shootInterval = 1f;
-    public float timeUntilNextShoot = 2f;
+    public float timeUntilNextShoot = 1f;
 
     private Vector3 targetCoordinates;
 
@@ -56,13 +56,13 @@ public class EnemyTank : MonoBehaviour
         ht.Add("onComplete", "Stop");
         iTween.MoveTo(gameObject, ht);
 
-        SetRotation(targetCoordinates, 1f);
+        SetRotation(targetCoordinates);
     }
 
     void Stop()
     {
         isStopped = true; // start rotation
-        SetRotation(GameObject.Find("Player").transform.position, 1f);
+        SetRotation(GameObject.Find("Player").transform.position);
     }
 
     // Update is called once per frame
@@ -79,7 +79,7 @@ public class EnemyTank : MonoBehaviour
         }
     }
 
-    void SetRotation(Vector3 toCoordinates, float t)
+    public void SetRotation(Vector3 toCoordinates)
     {
         Vector3 vectorToTarget = toCoordinates - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
@@ -91,10 +91,13 @@ public class EnemyTank : MonoBehaviour
     {
         Vector2 point = gameObject.transform.Find("Cannon End Point").transform.position;
 
+        // Muzzle flash
+        GameObject explosion = (GameObject)Instantiate(explosionPrefab, point, Quaternion.identity);
+        explosion.transform.localScale = explosion.transform.localScale / 3;
+
+        // Cannon ball
         GameObject projectile = (GameObject)Instantiate(projectilePrefab, point, transform.rotation);
-
         Vector2 force = transform.right * 400;
-
         projectile.GetComponent<Rigidbody2D>().AddForce(force);
     }
 

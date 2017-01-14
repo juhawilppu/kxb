@@ -4,6 +4,8 @@ using System;
 
 public class Player : MonoBehaviour {
 
+    public GameObject explosionPrefab;
+
     float health = 100;
 
     public GameObject F16Prefab;
@@ -27,6 +29,14 @@ public class Player : MonoBehaviour {
 
     internal void Shoot(Vector3 start, Vector3 end)
     {
+        // Muzzle flash
+        GameObject explosion1 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 1").position, Quaternion.identity);
+        explosion1.transform.localScale = explosion1.transform.localScale / 3;
+
+        // Muzzle flash
+        GameObject explosion2 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 2").position, Quaternion.identity);
+        explosion2.transform.localScale = explosion2.transform.localScale / 3;
+
         Vector3 direction = end - start;
 
         Debug.Log("start " + start);
@@ -40,6 +50,14 @@ public class Player : MonoBehaviour {
             hit.collider.transform.gameObject.GetComponent<EnemyTank>().Explode();
             ReceiveDamage(-10);
         }
+    }
+
+        public void SetRotation(Vector3 toCoordinates)
+    {
+        Vector3 vectorToTarget = toCoordinates - transform.position;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 360);
     }
 
     public void ReceiveDamage(float damage)
