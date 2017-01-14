@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
         f16Object.transform.Find("F16").GetComponent<F16>().SetTargetCoordinates(x, y);
     }
 
-    internal void Shoot(Vector3 start, Vector3 end)
+    internal bool Shoot(Vector3 start, Vector3 end)
     {
         // Muzzle flash
         GameObject explosion1 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 1").position, Quaternion.identity);
@@ -39,17 +39,17 @@ public class Player : MonoBehaviour {
 
         Vector3 direction = end - start;
 
-        Debug.Log("start " + start);
-        Debug.Log("end   " + end);
-        Debug.Log("Shoot");
-
         RaycastHit[] hitInfo = Physics.RaycastAll(start, direction);
 
+        bool hitEnemy = false;
+
         foreach(RaycastHit hit in hitInfo) {
-            Debug.Log("Hit");
             hit.collider.transform.gameObject.GetComponent<EnemyTank>().Explode();
-            ReceiveDamage(-10);
+            ReceiveDamage(-10); // Receive health for successful hit
+            hitEnemy = true;
         }
+
+        return hitEnemy;
     }
 
         public void SetRotation(Vector3 toCoordinates)

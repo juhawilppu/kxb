@@ -22,7 +22,7 @@ public class CannonController : MonoBehaviour {
     Vector3 iterationEnd;
     Vector3 currentEnd;
 
-    Color shootColor = new Color(255, 0, 0);
+    Color shootColor = new Color(0, 255, 0);
     Color okColor = new Color(0, 0, 255);
     Color failColor = new Color(255, 0, 0);
 
@@ -243,7 +243,14 @@ public class CannonController : MonoBehaviour {
 
     public void Shoot()
     {
-        lineRenderer.SetColors(shootColor, shootColor);
-        player.Shoot(currentStart, currentEnd);
+        bool hitEnemy = player.Shoot(currentStart, currentEnd);
+
+        if (hitEnemy)
+        {
+            lineRenderer.SetColors(shootColor, shootColor);
+        } else
+        {
+            lineRenderer.SetColors(failColor, failColor);
+        }
     }
 }

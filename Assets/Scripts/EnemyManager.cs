@@ -5,11 +5,11 @@ public class EnemyManager : MonoBehaviour {
 
     public GameObject enemyTankPrefab;
 
-    float enemySpawnInterval = 2;
-    float timeSinceLastSpawnedEnemy = 0;
+    float enemySpawnInterval = 8;
+    float timeSinceLastSpawnedEnemy = 8;
 
     float enemiesAtStart = 1;
-    float maxEnemies = 10;
+    float maxEnemies = 3;
 
 	// Use this for initialization
 	void Start () {

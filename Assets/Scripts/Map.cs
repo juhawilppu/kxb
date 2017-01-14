@@ -9,6 +9,8 @@ public class Map : MonoBehaviour {
     public static int OUTSIDE_X = 9;
     public static int OUTSIDE_Y = 9;
 
+    public static int DAMAGE_PER_HIT = 10;
+
 	// Use this for initialization
 	void Start () {
 	
