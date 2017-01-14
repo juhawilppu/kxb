@@ -84,7 +84,7 @@ public class EnemyTank : MonoBehaviour
         Vector3 vectorToTarget = toCoordinates - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
         Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 90);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 360);
     }
 
     private void Shoot()
