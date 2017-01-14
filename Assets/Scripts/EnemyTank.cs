@@ -6,41 +6,91 @@ public class EnemyTank : MonoBehaviour
     public GameObject explosionPrefab;
     public GameObject projectilePrefab;
 
+    float boatSpeed = 5;
+
     public float shootInterval = 7f;
-    public float timeUntilNextShoot = 7f;
+    public float timeUntilNextShoot = 2f;
+
+    private Vector3 targetCoordinates;
+
+    private bool isStopped = false;
 
     // Use this for initialization
     void Start()
     {
         float x = Random.Range(Map.MAX_X * -1, Map.MAX_X);
         float y = Random.Range(Map.MAX_Y * -1, Map.MAX_Y);
+        targetCoordinates = new Vector3(x, y, 1);
 
-        transform.position = new Vector3(x, y, 1);
+        float startY;
+        float startX;
+
+        bool isOnX = Random.value < 0.5;
+
+        // Randomize whether the start location is on X or Y axis
+        if (isOnX)
+        {
+            startY = Map.OUTSIDE_Y;
+            startX = Random.value * Map.OUTSIDE_X;
+        } else
+        {
+            startX = Map.OUTSIDE_X;
+            startY = Random.value * Map.OUTSIDE_Y;
+        }
+
+        // Start location should be near start location, so move them to the correct quarter
+        if (x < 0)
+            startX *= -1;
+        if (y < 0)
+            startY *= -1;
+
+        var startCoordinates = new Vector3(startX, startY, 1);
+
+        transform.position = startCoordinates;
+
+        Hashtable ht = new Hashtable();
+        ht.Add("time", (targetCoordinates-startCoordinates).magnitude / boatSpeed); // t = s/v
+        ht.Add("easetype", "linear");
+        ht.Add("x", targetCoordinates.x);
+        ht.Add("y", targetCoordinates.y);
+        ht.Add("onComplete", "Stop");
+        iTween.MoveTo(gameObject, ht);
+
+        SetRotation(targetCoordinates, 1f);
+    }
+
+    void Stop()
+    {
+        isStopped = true; // start rotation
+        SetRotation(GameObject.Find("Player").transform.position, 1f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        timeUntilNextShoot -= Time.deltaTime;
-        if (timeUntilNextShoot <= 0)
+        if (isStopped)
         {
-            timeUntilNextShoot = shootInterval;
-            Shoot();
+            timeUntilNextShoot -= Time.deltaTime;
+            if (timeUntilNextShoot <= 0)
+            {
+                timeUntilNextShoot = shootInterval;
+                Shoot();
+            }
         }
+    }
 
-       if (transform.position.x > 0 && transform.localScale.x > 0)
+    void SetRotation(Vector3 toCoordinates, float t)
+    {
+        if (transform.position.x > 0 && transform.localScale.x > 0)
             transform.localScale = new Vector3(transform.localScale.x * (-1), transform.localScale.y, transform.localScale.z);
 
-        Transform target = GameObject.Find("Player").transform;
-
-        Vector3 lookPos = transform.position - target.position;
+        Vector3 lookPos = transform.position - toCoordinates;
 
         var rotation = Quaternion.LookRotation(lookPos);
         rotation.x = 0;
         rotation.y = 0;
 
-        float damping = 5f;
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, t);
     }
 
     private void Shoot()

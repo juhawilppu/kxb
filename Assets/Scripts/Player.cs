@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         healthBar = GameObject.Find("Health Bar").GetComponent<HealthBar>();
+        ReceiveDamage(0); // To update health bar
 	}
 	
 	// Update is called once per frame
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour {
         foreach(RaycastHit hit in hitInfo) {
             Debug.Log("Hit");
             hit.collider.transform.gameObject.GetComponent<EnemyTank>().Explode();
+            ReceiveDamage(-10);
         }
     }
 
@@ -45,5 +47,10 @@ public class Player : MonoBehaviour {
         health -= damage;
         health = Mathf.Clamp(health, 0, 100);
         healthBar.SetHealth(health);
+
+        if (health == 0)
+        {
+            GameObject.Find("Game Manager").GetComponent<GameManager>().PlayerDied();
+        }
     }
 }

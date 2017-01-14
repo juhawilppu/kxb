@@ -37,10 +37,14 @@ public class BombController : MonoBehaviour {
         SetBombTargetVisible(false);
     }
 
+    string format(int number)
+    {
+        return ("" + number).Replace('-', '–'); // en dash
+    }
     void DrawNumbers()
     {
-        textX.text = bombX + "";
-        textY.text = bombY + "";
+        textX.text = format(bombX);
+        textY.text = format(bombY);
 
         // Cancel existing tweens
         iTween.Stop(bombTarget);

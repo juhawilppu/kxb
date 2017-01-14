@@ -5,8 +5,11 @@ public class EnemyManager : MonoBehaviour {
 
     public GameObject enemyTankPrefab;
     float timeSinceLastTank = 0;
-    public float tankInterval = 6;
-    public float tanksAtStart = 5;
+
+    float tankInterval = 6;
+    float tanksAtStart = 1;
+
+    float maxEnemies = 3;
 
 	// Use this for initialization
 	void Start () {
@@ -17,8 +20,15 @@ public class EnemyManager : MonoBehaviour {
         }
 	}
 	
+    int getEnemyCount()
+    {
+        return GameObject.FindGameObjectsWithTag("Enemy").Length;
+    }
+
 	// Update is called once per frame
 	void Update () {
+        if (getEnemyCount() >= maxEnemies)
+            return;
 
         timeSinceLastTank -= Time.deltaTime;
 
