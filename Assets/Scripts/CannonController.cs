@@ -5,7 +5,12 @@ using UnityEngine.UI;
 public class CannonController : MonoBehaviour {
 
     Player player;
-    Text textK;
+
+    Text textK_Single;
+    Text textK_Multi_Up;
+    Text textK_Multi_Divider;
+    Text textK_Multi_Down;
+
     Text textB;
 
     LineRenderer lineRenderer;
@@ -23,14 +28,21 @@ public class CannonController : MonoBehaviour {
     private float startTime = -2;
     private float transitionTime = 0.5f;
 
-    int k = 0;
+    int kUp = 5;
+    int kDown = 1;
+
     int b = 0;
     private float journeyLength;
 
     // Use this for initialization
     void Start () {
         player = GameObject.Find("Player").GetComponent<Player>();
-        textK = GameObject.Find("k").GetComponent<Text>();
+
+        textK_Single = GameObject.Find("k Single").GetComponent<Text>();
+        textK_Multi_Up = GameObject.Find("k Multi/k up").GetComponent<Text>();
+        textK_Multi_Divider = GameObject.Find("k Multi/____").GetComponent<Text>();
+        textK_Multi_Down = GameObject.Find("k Multi/k down").GetComponent<Text>();
+
         textB = GameObject.Find("b").GetComponent<Text>();
 
         DrawNumbers();
@@ -38,39 +50,131 @@ public class CannonController : MonoBehaviour {
 
     void DrawNumbers()
     {
-        textK.text = k + "";
+        setKSingleVisible(getK() >= 1 || getK() == 0f || getK() <= -1);
+
+        if (getK() >= 1 || getK() == 0f || getK() <= -1)
+        {
+            textK_Single.text = kUp + "";
+        } else
+        {
+            textK_Multi_Up.text = kUp + "";
+            textK_Multi_Down.text = kDown + "";
+        }
+
         textB.text = b + "";
 
         var center = new Vector3(0, b, 1);
-        var offset = new Vector3(20, 20*k, 0);
+        var offset = new Vector3(20, 20*getK(), 0);
 
         var start = center - offset;
         var end = center + offset;
         DrawLine(start, end);
     }
 
-    public void ReceiveMessage(string message)
+    float getK()
     {
-        string[] splitted = message.Split(' ');
-        int number;
+        return (float)kUp / (float)kDown;
+    }
 
-        if (splitted[0] == "k")
-            number = k;
+    void setKSingleVisible(bool isSingleVisible)
+    {
+        textK_Single.enabled = isSingleVisible;
+        textK_Multi_Up.enabled = !isSingleVisible;
+        textK_Multi_Divider.enabled = !isSingleVisible;
+        textK_Multi_Down.enabled = !isSingleVisible;
+    }
+
+    public void changeB(string message)
+    {
+        if (message == "+")
+            b++;
         else
-            number = b;
+            b--;
 
-        if (splitted[1] == "+")
-            number++;
-        else
-            number--;
-
-        if (splitted[0] == "k")
-            k = number;
-        else
-            b = number;
-
-        k = Mathf.Clamp(k, -5, 5);
         b = Mathf.Clamp(b, -5, 5);
+
+        DrawNumbers();
+    }
+
+    public void changeK(string message)
+    {
+        Debug.Log("changeK here, message = '" + message + "', k = " + getK());
+
+        // TODO Refactor if possible...
+
+        float k = getK();
+
+        if (message == "+")
+        {
+            // Cases are sort from largest to smallest
+            if (k >= 1)
+            {
+                kUp++;
+            } else if (k < 1 && k > 0)
+            {
+                kDown--;
+            }
+            else if (k == 0f)
+            {
+                kUp = 1;
+                kDown = 5;
+            } else if (kUp == -1 && kDown == 5)
+            {
+                kUp = 0;
+                kDown = 1;
+            }
+            else if (k < 0 && k > -1)
+            {
+                kDown++;
+            }
+            else if (k == -1)
+            {
+                kUp = -1;
+                kDown = 2;
+            } else if (k < -1)
+            {
+                kUp++;
+            }
+        } else
+        {
+            // Cases are sort from largest to smallest
+            if (k > 1)
+            {
+                kUp--;
+            }
+            else if (k == 1f)
+            {
+                kUp = 1;
+                kDown = 2;
+            }
+            else if (kUp == 1 && kDown == 5)
+            {
+                kUp = 0;
+                kDown = 1;
+            }
+            else if (k < 1 && k > 0)
+            {
+                kDown++;
+            }
+            else if (k == 0f)
+            {
+                kUp = -1;
+                kDown = 5;
+            }
+            else if (k <= 0 && k > -1)
+            {
+                kDown--;
+            }
+            else if (k <= -1)
+            {
+                kUp--;
+            }
+        }
+
+        Debug.Log("kUp = " + kUp + ", kDown = " + kDown);
+
+        kUp = Mathf.Clamp(kUp, -5, 5);
+        kDown = Mathf.Clamp(kDown, -5, 5);
 
         DrawNumbers();
     }

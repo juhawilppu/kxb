@@ -30,8 +30,8 @@ public class BombController : MonoBehaviour {
         bombTarget = GameObject.Find("Bomb Target");
         SetBombTargetVisible(false);
 
-        textX = GameObject.Find("x").GetComponent<Text>();
-        textY = GameObject.Find("y").GetComponent<Text>();
+        textX = GameObject.Find("Airstrike Controller/x").GetComponent<Text>();
+        textY = GameObject.Find("Airstrike Controller/y").GetComponent<Text>();
 
         DrawNumbers();
         SetBombTargetVisible(false);
