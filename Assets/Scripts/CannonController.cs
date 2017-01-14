@@ -98,10 +98,6 @@ public class CannonController : MonoBehaviour {
 
     public void changeK(string message)
     {
-        Debug.Log("changeK here, message = '" + message + "', k = " + getK());
-
-        // TODO Refactor if possible...
-
         float k = getK();
 
         if (message == "+")
@@ -170,8 +166,6 @@ public class CannonController : MonoBehaviour {
                 kUp--;
             }
         }
-
-        Debug.Log("kUp = " + kUp + ", kDown = " + kDown);
 
         kUp = Mathf.Clamp(kUp, -5, 5);
         kDown = Mathf.Clamp(kDown, -5, 5);
