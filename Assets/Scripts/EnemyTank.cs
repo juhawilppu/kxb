@@ -8,7 +8,7 @@ public class EnemyTank : MonoBehaviour
 
     float boatSpeed = 5;
 
-    public float shootInterval = 7f;
+    public float shootInterval = 1f;
     public float timeUntilNextShoot = 2f;
 
     private Vector3 targetCoordinates;
@@ -81,16 +81,10 @@ public class EnemyTank : MonoBehaviour
 
     void SetRotation(Vector3 toCoordinates, float t)
     {
-        if (transform.position.x > 0 && transform.localScale.x > 0)
-            transform.localScale = new Vector3(transform.localScale.x * (-1), transform.localScale.y, transform.localScale.z);
-
-        Vector3 lookPos = transform.position - toCoordinates;
-
-        var rotation = Quaternion.LookRotation(lookPos);
-        rotation.x = 0;
-        rotation.y = 0;
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, t);
+        Vector3 vectorToTarget = toCoordinates - transform.position;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 90);
     }
 
     private void Shoot()
@@ -100,8 +94,6 @@ public class EnemyTank : MonoBehaviour
         GameObject projectile = (GameObject)Instantiate(projectilePrefab, point, transform.rotation);
 
         Vector2 force = transform.right * 400;
-        if (transform.position.x > 0)
-            force *= -1;
 
         projectile.GetComponent<Rigidbody2D>().AddForce(force);
     }

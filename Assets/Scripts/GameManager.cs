@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
 
     internal void PlayerDied()
     {
-        if (!isGameOn)
+        if (!isGameOn || failedModal == null)
             return;
 
         isGameOn = false;

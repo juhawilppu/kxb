@@ -4,19 +4,19 @@ using System.Collections;
 public class EnemyManager : MonoBehaviour {
 
     public GameObject enemyTankPrefab;
-    float timeSinceLastTank = 0;
 
-    float tankInterval = 6;
-    float tanksAtStart = 1;
+    float enemySpawnInterval = 2;
+    float timeSinceLastSpawnedEnemy = 0;
 
-    float maxEnemies = 3;
+    float enemiesAtStart = 1;
+    float maxEnemies = 10;
 
 	// Use this for initialization
 	void Start () {
-	    for (int i=0; i < tanksAtStart; i++)
+	    for (int i=0; i < enemiesAtStart; i++)
         {
             Instantiate(enemyTankPrefab, new Vector2(0, 0), Quaternion.identity);
-            timeSinceLastTank = tankInterval;
+            timeSinceLastSpawnedEnemy = enemySpawnInterval;
         }
 	}
 	
@@ -30,12 +30,12 @@ public class EnemyManager : MonoBehaviour {
         if (getEnemyCount() >= maxEnemies)
             return;
 
-        timeSinceLastTank -= Time.deltaTime;
+        timeSinceLastSpawnedEnemy -= Time.deltaTime;
 
-        if (timeSinceLastTank < 0)
+        if (timeSinceLastSpawnedEnemy < 0)
         {
             Instantiate(enemyTankPrefab, new Vector2(0, 0), Quaternion.identity);
-            timeSinceLastTank = tankInterval;
+            timeSinceLastSpawnedEnemy = enemySpawnInterval;
         }
     }
 }
