@@ -28,7 +28,7 @@ public class CannonController : MonoBehaviour {
     private float startTime = -2;
     private float transitionTime = 0.5f;
 
-    int kUp = 5;
+    int kUp = 0;
     int kDown = 1;
 
     int b = 0;
@@ -54,14 +54,14 @@ public class CannonController : MonoBehaviour {
 
         if (getK() >= 1 || getK() == 0f || getK() <= -1)
         {
-            textK_Single.text = kUp + "";
+            textK_Single.text = format(kUp);            
         } else
         {
-            textK_Multi_Up.text = kUp + "";
-            textK_Multi_Down.text = kDown + "";
+            textK_Multi_Up.text = format(kUp);
+            textK_Multi_Down.text = format(kDown);
         }
 
-        textB.text = b + "";
+        textB.text = format(b);
 
         var center = new Vector3(0, b, 1);
         var offset = new Vector3(20, 20*getK(), 0);
@@ -69,6 +69,11 @@ public class CannonController : MonoBehaviour {
         var start = center - offset;
         var end = center + offset;
         DrawLine(start, end);
+    }
+    
+    string format(int number)
+    {
+        return  ("" + number).Replace('-', '–'); // en dash
     }
 
     float getK()

@@ -6,7 +6,7 @@ public class F16 : MonoBehaviour {
 
     public GameObject bombPrefab;
 
-    float flySpeed = 15f;
+    float flySpeed = 20f;
 
     float minY = -9;
     float maxY = 9;

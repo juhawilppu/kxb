@@ -49,7 +49,7 @@ public class EnemyTank : MonoBehaviour
 
         GameObject projectile = (GameObject)Instantiate(projectilePrefab, point, transform.rotation);
 
-        Vector2 force = transform.right * 300;
+        Vector2 force = transform.right * 400;
         if (transform.position.x > 0)
             force *= -1;
 
