@@ -8,21 +8,12 @@ public class Bomb : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (explosionDuration < 0)
-            return;
-
-        explosionDuration -= Time.deltaTime;
-
-        if (explosionDuration < 0)
-        {
-            Explode();
-        }
-	}
+        Hashtable ht = new Hashtable();
+        ht.Add("time", 1f);
+        ht.Add("amount", new Vector3(0.15f, 0.15f, 0));
+        ht.Add("onComplete", "Explode");
+        iTween.ShakeScale(gameObject, ht);
+    }
 
     void Explode()
     {

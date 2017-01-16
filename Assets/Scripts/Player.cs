@@ -38,6 +38,8 @@ public class Player : MonoBehaviour {
         {
             allowShooting = false;
 
+            GameObject.Find("Cannon Controller").GetComponent<CannonController>().DrawNumbers();
+
             int newY = (int)Mathf.Round(Map.PLAYER_MAX_Y - 2*UnityEngine.Random.value * Map.PLAYER_MAX_Y);
 
             Hashtable ht = new Hashtable();

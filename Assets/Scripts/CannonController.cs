@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class CannonController : MonoBehaviour {
 
@@ -48,7 +49,7 @@ public class CannonController : MonoBehaviour {
         DrawNumbers();
 	}
 
-    void DrawNumbers()
+    public void DrawNumbers()
     {
         setKSingleVisible(getK() >= 1 || getK() == 0f || getK() <= -1);
 
