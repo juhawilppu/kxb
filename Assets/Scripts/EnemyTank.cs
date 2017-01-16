@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class EnemyTank : MonoBehaviour
 {
@@ -18,24 +19,35 @@ public class EnemyTank : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        float x = Random.Range(Map.MAX_X * -1, Map.MAX_X);
-        float y = Random.Range(Map.MAX_Y * -1, Map.MAX_Y);
+        var playerPosition = GameObject.Find("Player").transform.position;
+
+        float x = 0;
+        float y = 0;
+
+        do
+        {
+            x = UnityEngine.Random.Range(Map.MAX_X * -1, Map.MAX_X);
+            y = UnityEngine.Random.Range(Map.MAX_Y * -1, Map.MAX_Y);
+
+
+        } while (!isAcceptable(x, y, playerPosition));
+
         targetCoordinates = new Vector3(x, y, 1);
 
         float startY;
         float startX;
 
-        bool isOnX = Random.value < 0.5;
+        bool isOnX = UnityEngine.Random.value < 0.5;
 
         // Randomize whether the start location is on X or Y axis
         if (isOnX)
         {
             startY = Map.OUTSIDE_Y;
-            startX = Random.value * Map.OUTSIDE_X;
+            startX = UnityEngine.Random.value * Map.OUTSIDE_X;
         } else
         {
             startX = Map.OUTSIDE_X;
-            startY = Random.value * Map.OUTSIDE_Y;
+            startY = UnityEngine.Random.value * Map.OUTSIDE_Y;
         }
 
         // Start location should be near start location, so move them to the correct quarter
@@ -57,6 +69,28 @@ public class EnemyTank : MonoBehaviour
         iTween.MoveTo(gameObject, ht);
 
         SetRotation(targetCoordinates);
+    }
+
+    private bool isAcceptable(float x, float y, Vector3 playerPosition)
+    {
+        if (x == playerPosition.x && y == playerPosition.y)
+            return false;
+
+        var line = playerPosition - new Vector3(x, y, 1);
+        var k = Math.Abs(line.y / x);
+
+        // Integer k is fine
+        if (k == (int)k && k < Map.MAX_Y)
+            return true;
+
+        // If k can be presented as 1/(1...Map.MAX_Y), then k is fine
+        for (int i = 1; i <= Map.MAX_Y; i++)
+        {
+            if ( Mathf.Abs(k - 1.0f/i) < 0.1 )
+                return true;
+        }
+
+        return false;
     }
 
     void Stop()
@@ -104,6 +138,6 @@ public class EnemyTank : MonoBehaviour
     public void Explode()
     {
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        Object.Destroy(transform.gameObject, 0.35f);
+        UnityEngine.Object.Destroy(transform.gameObject, 0.35f);
     }
 }

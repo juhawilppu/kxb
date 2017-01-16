@@ -11,15 +11,50 @@ public class Player : MonoBehaviour {
     public GameObject F16Prefab;
     HealthBar healthBar;
 
+    float BOAT_SPEED = 6;
+    float PLAYER_MOVE_INTERVAL = 15;
+    float timeSinceLastMove = 0;
+
+    bool allowShooting = true;
+
+    EnemyManager enemyManager;
+
     // Use this for initialization
     void Start () {
+        enemyManager = GameObject.Find("Enemy Manager").GetComponent<EnemyManager>();
         healthBar = GameObject.Find("Health Bar").GetComponent<HealthBar>();
         ReceiveDamage(0); // To update health bar
 	}
 	
 	// Update is called once per frame
-	void Update () {	
-	}
+	void Update () {
+
+        if (!allowShooting)
+            return; // Is moving already
+
+        timeSinceLastMove -= Time.deltaTime;
+
+        if (timeSinceLastMove <= 0 && enemyManager.getEnemyCount() == 0)
+        {
+            allowShooting = false;
+
+            int newY = (int)Mathf.Round(Map.PLAYER_MAX_Y - 2*UnityEngine.Random.value * Map.PLAYER_MAX_Y);
+
+            Hashtable ht = new Hashtable();
+            ht.Add("time", Mathf.Abs(newY-transform.position.y) / BOAT_SPEED); // t = s/v
+            ht.Add("easetype", "linear");
+            ht.Add("x", 0);
+            ht.Add("y", newY);
+            ht.Add("onComplete", "Stop");
+            iTween.MoveTo(gameObject, ht);
+        }
+    }
+
+    void Stop()
+    {
+        timeSinceLastMove = PLAYER_MOVE_INTERVAL;
+        allowShooting = true;
+    }
 
     public void DropBomb(int x, int y)
     {
@@ -29,6 +64,9 @@ public class Player : MonoBehaviour {
 
     internal bool Shoot(Vector3 start, Vector3 end)
     {
+        if (!allowShooting)
+            return false;
+
         // Muzzle flash
         GameObject explosion1 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 1").position, Quaternion.identity);
         explosion1.transform.localScale = explosion1.transform.localScale / 3;
@@ -52,7 +90,7 @@ public class Player : MonoBehaviour {
         return hitEnemy;
     }
 
-        public void SetRotation(Vector3 toCoordinates)
+    public void SetRotation(Vector3 toCoordinates)
     {
         Vector3 vectorToTarget = toCoordinates - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;

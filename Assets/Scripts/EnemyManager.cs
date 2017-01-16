@@ -5,7 +5,7 @@ public class EnemyManager : MonoBehaviour {
 
     public GameObject enemyTankPrefab;
 
-    float enemySpawnInterval = 8;
+    float enemySpawnInterval = 7;
     float timeSinceLastSpawnedEnemy = 8;
 
     float enemiesAtStart = 1;
@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour {
         }
 	}
 	
-    int getEnemyCount()
+    public int getEnemyCount()
     {
         return GameObject.FindGameObjectsWithTag("Enemy").Length;
     }

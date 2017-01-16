@@ -33,7 +33,6 @@ public class CannonController : MonoBehaviour {
     int kDown = 1;
 
     int b = 0;
-    private float journeyLength;
 
     // Use this for initialization
     void Start () {
@@ -119,8 +118,8 @@ public class CannonController : MonoBehaviour {
             else if (k == 0f)
             {
                 kUp = 1;
-                kDown = 5;
-            } else if (kUp == -1 && kDown == 5)
+                kDown = Map.MAX_Y;
+            } else if (kUp == -1 && kDown == Map.MAX_Y)
             {
                 kUp = 0;
                 kDown = 1;
@@ -149,7 +148,7 @@ public class CannonController : MonoBehaviour {
                 kUp = 1;
                 kDown = 2;
             }
-            else if (kUp == 1 && kDown == 5)
+            else if (kUp == 1 && kDown == Map.MAX_Y)
             {
                 kUp = 0;
                 kDown = 1;
@@ -161,7 +160,7 @@ public class CannonController : MonoBehaviour {
             else if (k == 0f)
             {
                 kUp = -1;
-                kDown = 5;
+                kDown = Map.MAX_Y;
             }
             else if (k <= 0 && k > -1)
             {
@@ -173,10 +172,15 @@ public class CannonController : MonoBehaviour {
             }
         }
 
-        kUp = Mathf.Clamp(kUp, -5, 5);
-        kDown = Mathf.Clamp(kDown, -5, 5);
+        kUp = Mathf.Clamp(kUp, -Map.MAX_Y, Map.MAX_Y);
+        kDown = Mathf.Clamp(kDown, -Map.MAX_Y, Map.MAX_Y);
 
         DrawNumbers();
+    }
+
+    bool isLineCrossingPlayer()
+    {
+        return player.gameObject.transform.position.y == b;
     }
 
     void DrawLine(Vector3 start, Vector3 end)
@@ -195,7 +199,7 @@ public class CannonController : MonoBehaviour {
             lineRenderer.sortingLayerName = "Players";
         }
 
-        if (player.gameObject.transform.position.y == b)
+        if (isLineCrossingPlayer())
         {
             lineRenderer.SetColors(okColor, okColor);
         } else
@@ -217,7 +221,6 @@ public class CannonController : MonoBehaviour {
         currentStart = start;
         currentEnd = end;
 
-        journeyLength = (oldStart - currentStart).magnitude;
         startTime = Time.time;
     }
 
@@ -235,7 +238,10 @@ public class CannonController : MonoBehaviour {
 
         lineRenderer.SetPosition(0, iterationStart);
         lineRenderer.SetPosition(1, iterationEnd);
-        player.SetRotation(iterationEnd);
+
+        if (isLineCrossingPlayer()) {
+            player.SetRotation(iterationEnd);
+        }
 
         if (fracJourney == 1)
             startTime = -1;
@@ -243,6 +249,13 @@ public class CannonController : MonoBehaviour {
 
     public void Shoot()
     {
+        if (!isLineCrossingPlayer())
+        {
+            // Cannot shoot
+            lineRenderer.SetColors(failColor, failColor);
+            return;
+        }
+
         bool hitEnemy = player.Shoot(currentStart, currentEnd);
 
         if (hitEnemy)
