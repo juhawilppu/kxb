@@ -9,9 +9,6 @@ public class EnemyTank : MonoBehaviour
 
     float boatSpeed = 5;
 
-    public float shootInterval = 1f;
-    public float timeUntilNextShoot = 1f;
-
     private Vector3 targetCoordinates;
 
     private bool isStopped = false;
@@ -19,7 +16,7 @@ public class EnemyTank : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        var playerPosition = GameObject.Find("Player").transform.position;
+        var playerPosition = GameObject.Find("Player").GetComponent<Player>().moveToCoordinates;
 
         float x = 0;
         float y = 0;
@@ -102,15 +99,6 @@ public class EnemyTank : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isStopped)
-        {
-            timeUntilNextShoot -= Time.deltaTime;
-            if (timeUntilNextShoot <= 0)
-            {
-                timeUntilNextShoot = shootInterval;
-                Shoot();
-            }
-        }
     }
 
     public void SetRotation(Vector3 toCoordinates)
@@ -121,7 +109,7 @@ public class EnemyTank : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 360);
     }
 
-    private void Shoot()
+    public void Shoot()
     {
         Vector2 point = gameObject.transform.Find("Cannon End Point").transform.position;
 

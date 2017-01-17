@@ -34,8 +34,18 @@ public class Bomb : MonoBehaviour {
             }
         }
 
-        if (!hitTank)
+
+        var gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        if (hitTank)
+        {
+            gameManager.NextRound();
+        }
+        else
+        {
+            gameManager.PlayerMissed();
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        }
 
         Object.Destroy(transform.gameObject, 0.35f);
     }

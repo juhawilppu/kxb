@@ -8,36 +8,53 @@ public class GameManager : MonoBehaviour {
 
     GameObject successModal;
     GameObject failedModal;
-    Text remaining;
+    Text roundText;
+
+    public int round { get; set; }
 
     bool isGameOn = true;
 
-    float timeRemaining = 120;
+    int LAST_ROUND = 10;
+
+    EnemyManager enemyManager;
 
 	// Use this for initialization
 	void Start () {
+        round = 0;
+
         successModal = GameObject.Find("Modal Success");
         failedModal = GameObject.Find("Modal Failed");
-        remaining = GameObject.Find("Remaining").GetComponent<Text>();
+        roundText = GameObject.Find("Remaining").GetComponent<Text>();
+        enemyManager = GameObject.Find("Enemy Manager").GetComponent<EnemyManager>();
 
         if (successModal != null)
         {
             successModal.SetActive(false);
             failedModal.SetActive(false);
         }
+
+        NextRound();
     }
 	
-	// Update is called once per frame
-	void Update () {
-        if (!isGameOn)
-            return;
+    public void NextRound()
+    {
+        round++;
+        roundText.text = "Round: " + round;
 
-        timeRemaining -= Time.deltaTime;
-        remaining.text = "Time remaining: " + (int)timeRemaining + " seconds";
-
-        if (timeRemaining <= 0)
+        if (round == LAST_ROUND + 1)
             GameWon();
-	}
+        else
+            enemyManager.NextEnemies();
+    }
+
+    public void PlayerMissed()
+    {
+        var objects = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject obj in objects)
+        {
+            obj.GetComponent<EnemyTank>().Shoot();
+        }
+    }
 
     public void Retry()
     {

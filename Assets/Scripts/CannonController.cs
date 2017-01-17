@@ -27,6 +27,8 @@ public class CannonController : MonoBehaviour {
     Color okColor = new Color(0, 0, 255);
     Color failColor = new Color(255, 0, 0);
 
+    GameManager gameManager;
+
     private float startTime = -2;
     private float transitionTime = 0.5f;
 
@@ -38,6 +40,7 @@ public class CannonController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = GameObject.Find("Player").GetComponent<Player>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         textK_Single = GameObject.Find("k Single").GetComponent<Text>();
         textK_Multi_Up = GameObject.Find("k Multi/k up").GetComponent<Text>();
@@ -253,6 +256,7 @@ public class CannonController : MonoBehaviour {
         if (!isLineCrossingPlayer())
         {
             // Cannot shoot
+            GameObject.Find("Game Manager").GetComponent<GameManager>().PlayerMissed();
             lineRenderer.SetColors(failColor, failColor);
             return;
         }
@@ -266,5 +270,22 @@ public class CannonController : MonoBehaviour {
         {
             lineRenderer.SetColors(failColor, failColor);
         }
+
+        if (gameManager.round <= 5)
+        {
+
+            // +1 because round is increment with a delay in GameManager
+            float newAlpha = Mathf.Pow( 1.0f / (gameManager.round + 1.0f), 2);
+            failColor.a = newAlpha;
+            okColor.a = newAlpha;
+            shootColor.a = newAlpha;
+        }
+        else
+        {
+            failColor.a = 0;
+            okColor.a = 0;
+            shootColor.a = 0;
+        }
+
     }
 }

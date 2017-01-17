@@ -12,49 +12,47 @@ public class Player : MonoBehaviour {
     HealthBar healthBar;
 
     float BOAT_SPEED = 6;
-    float PLAYER_MOVE_INTERVAL = 15;
-    float timeSinceLastMove = 0;
 
     bool allowShooting = true;
 
-    EnemyManager enemyManager;
+    public Vector3 moveToCoordinates { get; set; }
+
+    GameManager gameManager;
 
     // Use this for initialization
     void Start () {
-        enemyManager = GameObject.Find("Enemy Manager").GetComponent<EnemyManager>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         healthBar = GameObject.Find("Health Bar").GetComponent<HealthBar>();
         ReceiveDamage(0); // To update health bar
+        moveToCoordinates = Vector3.zero;            
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (!allowShooting)
-            return; // Is moving already
+    }
 
-        timeSinceLastMove -= Time.deltaTime;
+    void Move()
+    {
+        allowShooting = false;
 
-        if (timeSinceLastMove <= 0 && enemyManager.getEnemyCount() == 0)
-        {
-            allowShooting = false;
+        GameObject.Find("Cannon Controller").GetComponent<CannonController>().DrawNumbers();
 
-            GameObject.Find("Cannon Controller").GetComponent<CannonController>().DrawNumbers();
+        int newY = (int)Mathf.Round(Map.PLAYER_MAX_Y - 2 * UnityEngine.Random.value * Map.PLAYER_MAX_Y);
 
-            int newY = (int)Mathf.Round(Map.PLAYER_MAX_Y - 2*UnityEngine.Random.value * Map.PLAYER_MAX_Y);
+        moveToCoordinates = new Vector3(0, newY, transform.position.z);
 
-            Hashtable ht = new Hashtable();
-            ht.Add("time", Mathf.Abs(newY-transform.position.y) / BOAT_SPEED); // t = s/v
-            ht.Add("easetype", "linear");
-            ht.Add("x", 0);
-            ht.Add("y", newY);
-            ht.Add("onComplete", "Stop");
-            iTween.MoveTo(gameObject, ht);
-        }
+        Hashtable ht = new Hashtable();
+        ht.Add("time", (moveToCoordinates - transform.position).magnitude / BOAT_SPEED); // t = s/v
+        ht.Add("easetype", "linear");
+        //ht.Add("x", moveToCoordinates.x);
+        ht.Add("y", moveToCoordinates.y);
+        ht.Add("onComplete", "Stop");
+        iTween.MoveTo(gameObject, ht);
     }
 
     void Stop()
     {
-        timeSinceLastMove = PLAYER_MOVE_INTERVAL;
         allowShooting = true;
     }
 
@@ -69,14 +67,6 @@ public class Player : MonoBehaviour {
         if (!allowShooting)
             return false;
 
-        // Muzzle flash
-        GameObject explosion1 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 1").position, Quaternion.identity);
-        explosion1.transform.localScale = explosion1.transform.localScale / 3;
-
-        // Muzzle flash
-        GameObject explosion2 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 2").position, Quaternion.identity);
-        explosion2.transform.localScale = explosion2.transform.localScale / 3;
-
         Vector3 direction = end - start;
 
         RaycastHit[] hitInfo = Physics.RaycastAll(start, direction);
@@ -89,7 +79,33 @@ public class Player : MonoBehaviour {
             hitEnemy = true;
         }
 
+        if (hitEnemy)
+        {
+            // Muzzle flash
+            GameObject explosion1 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 1").position, Quaternion.identity);
+            explosion1.transform.localScale = explosion1.transform.localScale / 3;
+
+            // Muzzle flash
+            GameObject explosion2 = (GameObject)Instantiate(explosionPrefab, transform.Find("Barrel Position 2").position, Quaternion.identity);
+            explosion2.transform.localScale = explosion2.transform.localScale / 3;
+
+            StartCoroutine(ExecuteAfterTime(1));
+
+        } else
+        {
+            gameManager.PlayerMissed();
+        }
+
+
         return hitEnemy;
+    }
+
+    IEnumerator ExecuteAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        Move();
+        gameManager.NextRound();
     }
 
     public void SetRotation(Vector3 toCoordinates)
