@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
 
     bool isGameOn = true;
 
-    int LAST_ROUND = 10;
+    int LAST_ROUND = 1;
 
     EnemyManager enemyManager;
 
@@ -62,6 +62,11 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
+    public void Menu()
+    {
+        SceneManager.LoadScene("Scenes/menu", LoadSceneMode.Single);
+    }
+
     internal void PlayerDied()
     {
         if (!isGameOn || failedModal == null)
@@ -76,6 +81,7 @@ public class GameManager : MonoBehaviour {
         if (!isGameOn)
             return;
 
+        MenuManager.Passed();
         isGameOn = false;
         successModal.SetActive(true);
     }

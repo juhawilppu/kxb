@@ -203,6 +203,22 @@ public class CannonController : MonoBehaviour {
             lineRenderer.sortingLayerName = "Players";
         }
 
+        if (gameManager.round <= 5)
+        {
+
+            // +1 because round is increment with a delay in GameManager
+            float newAlpha = Mathf.Pow(1.0f / (gameManager.round + 1.0f), 2);
+            failColor.a = newAlpha;
+            okColor.a = newAlpha;
+            shootColor.a = newAlpha;
+        }
+        else
+        {
+            failColor.a = 0;
+            okColor.a = 0;
+            shootColor.a = 0;
+        }
+
         if (isLineCrossingPlayer())
         {
             lineRenderer.SetColors(okColor, okColor);
@@ -270,22 +286,5 @@ public class CannonController : MonoBehaviour {
         {
             lineRenderer.SetColors(failColor, failColor);
         }
-
-        if (gameManager.round <= 5)
-        {
-
-            // +1 because round is increment with a delay in GameManager
-            float newAlpha = Mathf.Pow( 1.0f / (gameManager.round + 1.0f), 2);
-            failColor.a = newAlpha;
-            okColor.a = newAlpha;
-            shootColor.a = newAlpha;
-        }
-        else
-        {
-            failColor.a = 0;
-            okColor.a = 0;
-            shootColor.a = 0;
-        }
-
     }
 }
