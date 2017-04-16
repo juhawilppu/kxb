@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 12032e8f648dbd74aaf7e96345dc163e
-timeCreated: 1492330629
+guid: 29850aca9a2181f4dab5f66f5399b788
+timeCreated: 1492326395
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: menu_button_0
-    21300002: menu_button_1
-    21300004: menu_button_2
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -41,7 +38,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -53,43 +50,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: menu_button_0
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 13
-        width: 373
-        height: 373
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - serializedVersion: 2
-      name: menu_button_1
-      rect:
-        serializedVersion: 2
-        x: 464
-        y: 13
-        width: 373
-        height: 373
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - serializedVersion: 2
-      name: menu_button_2
-      rect:
-        serializedVersion: 2
-        x: 862
-        y: 13
-        width: 373
-        height: 373
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+    sprites: []
     outline: []
   spritePackingTag: 
   userData: 

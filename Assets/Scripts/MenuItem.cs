@@ -6,6 +6,7 @@ public class MenuItem : MonoBehaviour {
     private int levelIndex;
     public Sprite activeButton;
     public Sprite disabledButton;
+    public Sprite unknownText;
 
     Transform text;
     Transform button;
@@ -37,8 +38,14 @@ public class MenuItem : MonoBehaviour {
 
     void OnMouseExit()
     {
-        isMouseOver = false;
-        ScaleDown();
+        if (!isClickable)
+            return;
+
+        if (isMouseOver)
+        {
+            isMouseOver = false;
+            ScaleDown();
+        }
     }
 
     void OnMouseUp()
@@ -52,6 +59,7 @@ public class MenuItem : MonoBehaviour {
     public void SetEnabled(int thisLevel, int currentLevel)
     {
         Debug.Log("SetEnabled, currentLevel " + currentLevel);
+        Debug.Log("thisLevel " + thisLevel);
         levelIndex = thisLevel;
 
         if (thisLevel < currentLevel)
@@ -73,6 +81,7 @@ public class MenuItem : MonoBehaviour {
 
     public void SetDisabled()
     {
+        text.GetComponent<SpriteRenderer>().sprite = unknownText;
         button.GetComponent<SpriteRenderer>().sprite = disabledButton;
     }
 	

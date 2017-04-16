@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6dec694848ad1af47aaaa743f2cb906e
-timeCreated: 1492285282
+timeCreated: 1492331967
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,9 @@ TextureImporter:
     21300004: menu_text_cities_2
     21300006: menu_text_cities_3
     21300008: menu_text_cities_4
+    21300010: menu_text_cities_5
+    21300012: menu_text_cities_6
+    21300014: menu_text_cities_7
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -61,9 +64,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1504
-        width: 2378
-        height: 376
+        y: 1866
+        width: 2784
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -73,9 +76,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1128
-        width: 2378
-        height: 376
+        y: 1616
+        width: 2784
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -85,9 +88,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 752
-        width: 2378
-        height: 376
+        y: 1366
+        width: 2784
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -97,9 +100,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 376
-        width: 2378
-        height: 376
+        y: 1116
+        width: 2784
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -109,9 +112,45 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 2378
-        height: 376
+        y: 866
+        width: 2784
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: menu_text_cities_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 616
+        width: 2784
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: menu_text_cities_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 366
+        width: 2784
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: menu_text_cities_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 116
+        width: 2784
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
