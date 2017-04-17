@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
 
     bool isGameOn = true;
 
-    int LAST_ROUND = 1;
+    int LAST_ROUND = MenuManager.isPracticeLevel() ? 2 : 1;
 
     EnemyManager enemyManager;
 
@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour {
             return;
 
         isGameOn = false;
+        failedModal.transform.parent = GameObject.Find("UI").transform;
         failedModal.SetActive(true);
     }
 
@@ -83,6 +84,11 @@ public class GameManager : MonoBehaviour {
 
         MenuManager.Passed();
         isGameOn = false;
-        successModal.SetActive(true);
+
+        if (!MenuManager.isPracticeLevel())
+        {
+            successModal.transform.parent = GameObject.Find("UI").transform;
+            successModal.SetActive(true);
+        }
     }
 }

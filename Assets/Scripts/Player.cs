@@ -38,7 +38,14 @@ public class Player : MonoBehaviour {
 
         GameObject.Find("Cannon Controller").GetComponent<CannonController>().DrawNumbers();
 
-        int newY = (int)Mathf.Round(Map.PLAYER_MAX_Y - 2 * UnityEngine.Random.value * Map.PLAYER_MAX_Y);
+        int newY;
+        if (MenuManager.isPracticeLevel())
+        {
+            newY = 2;
+        } else
+        {
+            newY = (int)Mathf.Round(Map.PLAYER_MAX_Y - 2 * UnityEngine.Random.value * Map.PLAYER_MAX_Y);
+        }
 
         moveToCoordinates = new Vector3(0, newY, transform.position.z);
 

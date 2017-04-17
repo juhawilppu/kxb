@@ -7,6 +7,7 @@ public class BombController : MonoBehaviour {
 
     Player player;
     GameObject bombTarget;
+    TutorialManager tutorialManager;
 
     public enum Change
     {
@@ -28,6 +29,7 @@ public class BombController : MonoBehaviour {
 	void Start () {
         player = GameObject.Find("Player").GetComponent<Player>();
         bombTarget = GameObject.Find("Bomb Target");
+        tutorialManager = GameObject.Find("Tutorial").GetComponent<TutorialManager>();
         SetBombTargetVisible(false);
 
         textX = GameObject.Find("Airstrike Controller/x").GetComponent<Text>();
@@ -83,12 +85,15 @@ public class BombController : MonoBehaviour {
         bombY = Mathf.Clamp(bombY, Map.MAX_Y * -1, Map.MAX_Y);
 
         DrawNumbers();
+
+        tutorialManager.setBombCoordinates(bombX, bombY);
     }
 
     public void DropBomb()
     {
         SetBombTargetVisible(false);
         player.DropBomb(bombX, bombY);
+        tutorialManager.Next();
     }
 
     private void SetBombTargetVisible(bool isVisible)

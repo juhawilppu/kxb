@@ -39,6 +39,16 @@ public class CannonController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        if (!MenuManager.isCannonEnabled())
+        {
+            foreach (var o in GameObject.FindGameObjectsWithTag("Cannon"))
+            {
+                o.SetActive(false);
+            }
+            return;
+        }
+
         player = GameObject.Find("Player").GetComponent<Player>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
@@ -73,6 +83,9 @@ public class CannonController : MonoBehaviour {
         var start = center - offset;
         var end = center + offset;
         DrawLine(start, end);
+
+        if (MenuManager.isPracticeLevel())
+            GameObject.Find("Tutorial").GetComponent<TutorialManager>().setCannonCoordinates(getK(), b);
     }
     
     string format(int number)
@@ -203,14 +216,10 @@ public class CannonController : MonoBehaviour {
             lineRenderer.sortingLayerName = "Players";
         }
 
-        if (gameManager.round <= 5)
-        {
-
-            // +1 because round is increment with a delay in GameManager
-            float newAlpha = Mathf.Pow(1.0f / (gameManager.round + 1.0f), 2);
-            failColor.a = newAlpha;
-            okColor.a = newAlpha;
-            shootColor.a = newAlpha;
+        if (MenuManager.activeLevel <= 5) {        
+            failColor.a = 1;
+            okColor.a = 1;
+            shootColor.a = 1;
         }
         else
         {
@@ -282,6 +291,8 @@ public class CannonController : MonoBehaviour {
         if (hitEnemy)
         {
             lineRenderer.SetColors(shootColor, shootColor);
+            if (MenuManager.isPracticeLevel())
+                GameObject.Find("Tutorial").GetComponent<TutorialManager>().Next();
         } else
         {
             lineRenderer.SetColors(failColor, failColor);

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6dec694848ad1af47aaaa743f2cb906e
-timeCreated: 1492331967
+timeCreated: 1492415021
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,6 +12,8 @@ TextureImporter:
     21300010: menu_text_cities_5
     21300012: menu_text_cities_6
     21300014: menu_text_cities_7
+    21300016: menu_text_cities_8
+    21300018: menu_text_cities_9
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -64,9 +66,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1866
+        y: 2277
         width: 2784
-        height: 250
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -76,9 +78,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1616
+        y: 2024
         width: 2784
-        height: 250
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -88,9 +90,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1366
+        y: 1771
         width: 2784
-        height: 250
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -100,9 +102,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1116
+        y: 1518
         width: 2784
-        height: 250
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,9 +114,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 866
+        y: 1265
         width: 2784
-        height: 250
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,9 +126,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 616
+        y: 1012
         width: 2784
-        height: 250
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,9 +138,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 366
+        y: 759
         width: 2784
-        height: 250
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,9 +150,33 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 116
+        y: 506
         width: 2784
-        height: 250
+        height: 253
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: menu_text_cities_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 253
+        width: 2784
+        height: 253
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: menu_text_cities_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2784
+        height: 253
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

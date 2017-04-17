@@ -4,7 +4,6 @@ using System.Collections;
 public class Bomb : MonoBehaviour {
 
     public GameObject explosionPrefab;
-    float explosionDuration = 0.4f;
 
 	// Use this for initialization
 	void Start () {

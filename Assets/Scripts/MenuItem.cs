@@ -58,8 +58,6 @@ public class MenuItem : MonoBehaviour {
 
     public void SetEnabled(int thisLevel, int currentLevel)
     {
-        Debug.Log("SetEnabled, currentLevel " + currentLevel);
-        Debug.Log("thisLevel " + thisLevel);
         levelIndex = thisLevel;
 
         if (thisLevel < currentLevel)

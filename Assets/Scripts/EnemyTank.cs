@@ -21,13 +21,22 @@ public class EnemyTank : MonoBehaviour
         float x = 0;
         float y = 0;
 
-        do
+        if (MenuManager.isPracticeLevel())
         {
-            x = UnityEngine.Random.Range(Map.MAX_X * -1, Map.MAX_X);
-            y = UnityEngine.Random.Range(Map.MAX_Y * -1, Map.MAX_Y);
+            var tutorialManager = GameObject.Find("Tutorial").GetComponent<TutorialManager>();
+            var coord = tutorialManager.getNextEnemy();
+            x = coord.x;
+            y = coord.y;
+        } else {
+            do
+            {
+                x = UnityEngine.Random.Range(Map.MAX_X * -1, Map.MAX_X);
+                y = UnityEngine.Random.Range(Map.MAX_Y * -1, Map.MAX_Y);
 
 
-        } while (!isAcceptable(x, y, playerPosition));
+            } while (!isAcceptable(x, y, playerPosition));
+        }
+
 
         targetCoordinates = new Vector3(x, y, 1);
 

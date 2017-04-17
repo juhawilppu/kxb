@@ -13,7 +13,6 @@ using UnityEditor;
 [InitializeOnLoad]
 public class OnUnityLoad
 {
-
     static OnUnityLoad()
     {
 
@@ -30,7 +29,5 @@ public class OnUnityLoad
             }
 
         };
-
     }
-
 }
